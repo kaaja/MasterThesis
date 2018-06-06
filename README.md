@@ -4,6 +4,4 @@ This repository contains the necessary files for reproducing the results of my m
 ## File descriptions
 The folder "pythonFiles" contains files for postprocessing of the data, and production of figures.  
 
-The folder "openFoamFiles" contains the necessary files for simulating the scenarios with openFoam.  
-
-There are some python files that are used to generate input for the specific cases.
+The folder "openFoamFiles" contains the necessary files for simulating the scenarios with openFoam.
