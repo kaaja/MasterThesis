@@ -1,0 +1,59 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# copy DTC hull surface from resources folder
+#cp $FOAM_TUTORIALS/resources/geometry/DTC-scaled.stl.gz constant/triSurface/
+
+#runApplication surfaceFeatureExtract
+
+runApplication blockMesh
+
+for i in 1 2  3  4  #5  6 
+do
+    runApplication -s $i \
+        topoSet -dict system/topoSetDict.${i}
+
+    runApplication -s $i \
+        refineMesh -dict system/refineMeshDict.XYdir -overwrite
+done
+
+
+for i in 5 6 # 9 10 
+do
+    runApplication -s $i \
+        topoSet -dict system/topoSetDict.${i}
+
+    runApplication -s $i \
+        refineMesh -dict system/refineMeshDict -overwrite
+done
+
+runApplication -s 7 \
+    topoSet -dict system/topoSetDict.7
+
+runApplication -s 7 \
+    refineMesh -dict system/refineMeshDict.XYdir -overwrite
+
+runApplication -s 8 \
+    topoSet -dict system/topoSetDict.8
+
+runApplication -s 8 \
+    refineMesh -dict system/refineMeshDict.Ydir -overwrite
+
+runApplication -s 9 \
+    topoSet -dict system/topoSetDict.9
+
+runApplication -s 9 \
+    refineMesh -dict system/refineMeshDict.Ydir -overwrite
+
+runApplication -s 10 \
+    topoSet -dict system/topoSetDict.10
+
+runApplication -s 10 \
+    refineMesh -dict system/refineMeshDict.Xdir -overwrite
+
+
+
+#------------------------------------------------------------------------------

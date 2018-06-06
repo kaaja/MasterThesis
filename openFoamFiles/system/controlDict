@@ -1,0 +1,99 @@
+/*--------------------------------*- C++ -*----------------------------------*\ 
+| =========                 |                                                 | 
+| \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           | 
+|  \    /   O peration     | Version:  5                                     | 
+|   \  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \/     M anipulation  |                                                 | 
+\*---------------------------------------------------------------------------*/ 
+FoamFile 
+{ 
+    version     2.0; 
+    format      ascii; 
+    class       dictionary; 
+    location    "system"; 
+    object      controlDict; 
+} 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * // 
+ 
+application     twoLiquidMixingFoam;//interFoam; 
+
+startFrom       latestTime;//startTime; 
+ 
+startTime       0; 
+
+stopAt          endTime; 
+
+endTime         50; 
+ 
+deltaT          1;//0.5; 
+
+writeControl    adjustableRunTime; 
+ 
+writeInterval   10.0; 
+ 
+purgeWrite      0; 
+
+writeFormat     binary;
+ 
+writePrecision  6;//12;
+
+writeCompression uncompressed;
+
+timeFormat      general; 
+
+timePrecision   6; 
+
+runTimeModifiable yes; 
+
+adjustTimeStep  yes;//no; 
+maxCo           1.0;
+maxAlphaCo      1.0; 
+rDeltaTSmoothingCoeff 0.05; 
+rDeltaTDampingCoeff 0.5; 
+nAlphaSpreadIter    0; 
+nAlphaSweepIter     0; 
+maxDeltaT       1; 
+ 
+functions
+{
+    //#include "cuttingPlane"
+
+    #includeFunc    residuals 
+
+    forceCoeffs
+    {
+        type                forceCoeffs;
+        functionObjectLibs  ("libforces.so");
+        writeControl       timeStep;
+        writeInterval      1;
+
+        patches             (barge);
+        p                   p;
+        U                   U;
+        rho                 rhoInf;
+        log                 true;
+
+        liftDir             (0 0 1);
+        dragDir             (-1 0 0);
+        CofR                (0.3 0 0.075); // Rotation center
+        pitchAxis           (0 1 0);
+
+        magUInf             0.080000;
+        rhoInf              997; // Denisity fluid
+        lRef                0.6; // Chord 
+        Aref                0.24;//0.345;//0.24;// Wetted surface ares, 
+    }
+    forces
+    {
+        type            forces;
+        libs            ("libforces.so");
+        patches         (barge);
+        rhoInf          997;
+        log             on;
+        writeControl    timeStep;
+        writeInterval   1;
+        CofR            (0.3 0 0.075); // Rotation center
+    }
+}
+
+// ************************************************************************* // 
