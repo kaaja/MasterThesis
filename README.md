@@ -4,4 +4,4 @@ This repository contains the necessary files for reproducing the results of my m
 ## File descriptions
 The folder "pythonFiles" contains files for postprocessing of the data, and production of figures.  
 
-The folder "openFoamFiles" contains the necessary files for simulating the scenarios with openFoam.
+The folder "dataFiles" contains data that was manually created in ParaView.
